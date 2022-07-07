@@ -4,11 +4,6 @@ import javax.persistence.*;
 
 import com.logistica.model.ERole;
 
-/** Represents a Role.
- * @author Ricardo Flamenco
- * @version 1.0
- * @since 1.0
- */
 @Entity
 @Table(name = "roles")
 public class Role {

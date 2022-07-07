@@ -1,54 +1,35 @@
-package com.logistica.entity;
+package com.logistica.model;
+import com.logistica.entity.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
-/** Represents a User.
- * @author Ricardo Flamenco
- * @version 1.0
- * @since 1.0
- */
-@Entity
-@Table(	name = "users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+public class UserRequest {
+
     private Long id;
 
-    @NotBlank
-    @Size(max = 20)
     private String username;
 
-    @NotBlank
-    @Size(max = 50)
-    @Email
     private String email;
 
-    @NotBlank
-    @Size(max = 500)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(	name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<String> roles;
 
-    public User() {
-    }
-    
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public UserRequest() {
     }
 
-    public User(String username, String email, String password) {
+    public UserRequest(Long id, String username, String email, String password, Set<String> roles) {
+        this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -83,11 +64,53 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
+    public Set<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Set<String> roles) {
         this.roles = roles;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.id);
+        hash = 29 * hash + Objects.hashCode(this.username);
+        hash = 29 * hash + Objects.hashCode(this.email);
+        hash = 29 * hash + Objects.hashCode(this.password);
+        hash = 29 * hash + Objects.hashCode(this.roles);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final UserRequest other = (UserRequest) obj;
+        if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return Objects.equals(this.roles, other.roles);
+    }
+
+    
+    
+
 }
