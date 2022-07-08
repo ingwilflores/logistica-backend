@@ -4,7 +4,9 @@
  */
 package com.logistica.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -16,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -66,13 +69,9 @@ public class Producto implements Serializable {
     @Column(name = "valido_hasta")
     @Temporal(TemporalType.DATE)
     private Date validoHasta;
-    @JoinColumn(name = "id_plan", referencedColumnName = "id_plan")
-    @ManyToOne(optional = false)
-    private Plan idPlan;
-    @NotNull
-    @JoinColumn(name = "id_tipo_producto", referencedColumnName = "id_tipo_producto")
-    @ManyToOne(optional = false)
-    private TipoProducto idTipoProducto;
+    @OneToMany(mappedBy = "idProducto")
+    @JsonIgnore
+    private Collection<Plan> planCollection;
 
     public Producto() {
     }
@@ -136,20 +135,12 @@ public class Producto implements Serializable {
         this.validoHasta = validoHasta;
     }
 
-    public Plan getIdPlan() {
-        return idPlan;
+    public Collection<Plan> getPlanCollection() {
+        return planCollection;
     }
 
-    public void setIdPlan(Plan idPlan) {
-        this.idPlan = idPlan;
-    }
-
-    public TipoProducto getIdTipoProducto() {
-        return idTipoProducto;
-    }
-
-    public void setIdTipoProducto(TipoProducto idTipoProducto) {
-        this.idTipoProducto = idTipoProducto;
+    public void setPlanCollection(Collection<Plan> planCollection) {
+        this.planCollection = planCollection;
     }
 
     @Override

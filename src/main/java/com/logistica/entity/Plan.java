@@ -56,7 +56,6 @@ public class Plan implements Serializable {
     @Column(name = "cantidad")
     private int cantidad;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "fecha_registro", nullable = false, updatable = false)
     @CreationTimestamp
     @Temporal(TemporalType.DATE)
@@ -82,14 +81,9 @@ public class Plan implements Serializable {
     @NotNull
     @Column(name = "estado")
     private int estado;
-    @NotNull
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPlan")
     @JsonIgnore
     private Collection<PlanDetalle> planDetalleCollection;
-    @NotNull
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPlan")
-    @JsonIgnore
-    private Collection<Producto> productoCollection;
     @NotNull
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
     @ManyToOne(optional = false)
@@ -98,7 +92,11 @@ public class Plan implements Serializable {
     @JoinColumn(name = "id_localizacion_entrega", referencedColumnName = "id_localizacion_entrega")
     @ManyToOne(optional = false)
     private LocalizacionEntrega idLocalizacionEntrega;
-
+    @NotNull
+    @JoinColumn(name = "id_producto", referencedColumnName = "id_producto")
+    @ManyToOne(optional = false)
+    private Producto idProducto;
+    
     public Plan() {
     }
 
@@ -188,14 +186,6 @@ public class Plan implements Serializable {
         this.planDetalleCollection = planDetalleCollection;
     }
 
-    public Collection<Producto> getProductoCollection() {
-        return productoCollection;
-    }
-
-    public void setProductoCollection(Collection<Producto> productoCollection) {
-        this.productoCollection = productoCollection;
-    }
-
     public Cliente getIdCliente() {
         return idCliente;
     }
@@ -210,6 +200,15 @@ public class Plan implements Serializable {
 
     public void setIdLocalizacionEntrega(LocalizacionEntrega idLocalizacionEntrega) {
         this.idLocalizacionEntrega = idLocalizacionEntrega;
+    }
+    
+    
+    public Producto getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(Producto idProducto) {
+        this.idProducto = idProducto;
     }
 
     @Override

@@ -46,7 +46,6 @@ public class ProductoServiceImpl implements ProductoService{
         obj.setCodigo(request.getCodigo());
         obj.setNombre(request.getNombre());
         obj.setDescripcion(request.getDescripcion());
-        obj.setIdTipoProducto(request.getIdTipoProducto());
         
         return repositoryPrincipal.save(obj);
     }
